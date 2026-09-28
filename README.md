@@ -127,12 +127,14 @@ FORMAT(a, "0.00") & " Days"
 Trimming Pass Rate % =
 DIVIDE ( [volume_tpn_ship], [volume_tpn_hauling] )
 
-```
 Total Revenue =
 SUM ( [volume_tpn_ship] * [price]  * [Trimming Pass Rate % ])
 
 profit = 
 ([Total Revenue] - [cost])
+
+```
+
 
 ## Dashboard dan pertanyaan analitis
 
