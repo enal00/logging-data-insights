@@ -220,29 +220,6 @@ Prinsip ini sejalan dengan praktik *Reduced Impact Logging*: perencanaan sebelum
 | Data modeling | Model Job ID ke ID Tree, dimensi kalender, relasi aktivitas operasi, serta pemisahan grain Job dan pohon. |
 | Business analysis | Penerjemahan proses kehutanan menjadi KPI, pertanyaan bisnis, insight, dan rekomendasi tindakan. |
 
-## Struktur repositori yang disarankan
-
-```text
-.
-├── README.md
-├── NAS_DATA.pbix                 # Dashboard Power BI (data sintetis)
-├── assets/
-│   ├── dashboard-overview.png
-│   ├── survey-performance.png
-│   ├── volume-attrition.png
-│   ├── cost-profit.png
-│   ├── compliance.png
-│   └── data-model.png
-└── data/
-    └── anonymized/               # CSV/Excel sintetis yang aman dipublikasikan
-```
-
-## Cara menjalankan
-
-1. Unduh atau clone repositori ini.
-2. Buka `NAS_DATA.pbix` menggunakan Power BI Desktop.
-3. Pastikan path sumber data diarahkan ke folder data sintetis yang dipublikasikan.
-4. Refresh data untuk memuat dashboard.
 
 ## Batasan studi kasus
 
