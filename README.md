@@ -10,26 +10,40 @@ Dashboard menghubungkan seluruh siklus hidup satu koridor kerja, dari survei pot
 
 > **Catatan kerahasiaan:** seluruh data dalam proyek ini bersifat sintetis dan telah dianonimkan. Struktur proses bisnis, definisi metrik, dan konteks pengambilan keputusan mencerminkan pengalaman operasional nyata, tanpa mengungkap data perusahaan sebelumnya.
 
+## Daftar isi
+
+- [Masalah bisnis](#masalah-bisnis)
+- [Tujuan analisis](#tujuan-analisis)
+- [Konteks proses bisnis](#konteks-proses-bisnis)
+- [Ruang lingkup data](#ruang-lingkup-data)
+- [Data model](#data-model)
+- [KPI utama](#kpi-utama)
+- [Dashboard dan pertanyaan analitis](#dashboard-dan-pertanyaan-analitis)
+- [Insight dan rekomendasi strategis](#insight-dan-rekomendasi-strategis)
+- [Kerangka operational excellence](#kerangka-operational-excellence)
+- [Tools dan kompetensi yang ditunjukkan](#tools-dan-kompetensi-yang-ditunjukkan)
+- [Batasan studi kasus](#batasan-studi-kasus)
+- [Peran saya](#peran-saya)
+
 ## Masalah bisnis
 
 Operasi berjalan melalui survei, penebangan, skidding, hauling, shipping, penanaman, dan aktivitas compliance. Sebelum dashboard ini, evaluasi antar tahap sulit dilakukan secara terpadu. Akibatnya, beberapa pertanyaan penting tidak dapat dijawab cepat dan konsisten:
 
-1- Berapa potensi tegakan yang berhasil menjadi volume siap jual?
-2- Di tahap mana kehilangan volume dan nilai terbesar terjadi?
-3- Apakah kenaikan revenue benar-benar menghasilkan profit yang lebih besar setelah seluruh biaya diperhitungkan?
-4- Metode survei, leader, formasi frontman-operator, atau alokasi kerja mana yang paling sesuai untuk kondisi pekerjaan tertentu?
-5- Bagaimana meningkatkan performa tanpa mengorbankan keselamatan, kualitas log, kelestarian, atau kepatuhan?
-6- Apakah pelaporan eksternal, training, dan sertifikasi berjalan sesuai tenggat?
+1. Berapa potensi tegakan yang berhasil menjadi volume siap jual?
+2. Di tahap mana kehilangan volume dan nilai terbesar terjadi?
+3. Apakah kenaikan revenue benar-benar menghasilkan profit yang lebih besar setelah seluruh biaya diperhitungkan?
+4. Leader survei dan formasi frontman-operator mana yang paling sesuai untuk jenis pekerjaan dan kondisi operasi tertentu?
+5. Bagaimana meningkatkan performa tanpa mengorbankan keselamatan, kualitas log, kelestarian, atau kepatuhan?
+6. Apakah pelaporan eksternal, training, dan sertifikasi berjalan sesuai tenggat?
 
 ## Tujuan analisis
 
-1. Memantau aliran volume dari standing stock sampai revenue pada level Job ID dan pohon.
-2. Analisis funnel conversion volume di setiap tahap kegiatan (tolong bahasa nya diperbaiki)
-3. Menilai recovery volume, biaya per m³, dan profit margin di sepanjang rantai operasi.
-4. Mengarahkan evaluasi leader survei berdasarkan produktivitas, biaya, cakupan, dan konteks metode kerja.
-4. Mengidentifikasi kombinasi mandor dan operator berdasarkan kontribusi volume.
-5. Memantau risiko kualitas, trimming, umur kayu, dan dampak kenaikan biaya hauling.
-6. Menjaga visibilitas aktivitas penanaman, compliance, certification, training, external relation, dan external reporting.
+1. Mengkuantifikasi perjalanan potensi dari standing stock hingga revenue pada level Job ID dan pohon, sehingga manajemen dapat melihat berapa volume yang benar-benar menjadi penjualan.
+2. Membentuk funnel conversion antar-tahap—stock ke TPn, TPn ke hauling, dan hauling ke shipping—untuk menemukan lokasi, penyebab, serta nilai kehilangan volume yang paling material.
+3. Menganalisis hubungan revenue, total biaya, cost per m³, dan profit margin agar pertumbuhan penjualan tidak dinilai terpisah dari efisiensi biaya.
+4. Menentukan kesesuaian leader dengan jenis survei berdasarkan score dan cost per km, serta mengidentifikasi formasi frontman-operator berkontribusi volume tinggi sebagai dasar alokasi, rotasi, dan pembinaan kerja.
+5. Mengarahkan perbaikan operational excellence melalui pemantauan recovery, umur kayu, trimming, kualitas log, keselamatan, kelestarian, dan dampak lonjakan biaya hauling.
+6. Menjaga visibilitas penanaman dan aktivitas compliance—certification, external reporting, training, serta external relation—agar kewajiban operasional terkendali dan selesai tepat waktu.
 
 ## Konteks proses bisnis
 
@@ -51,11 +65,12 @@ Profit
      planting, dan compliance cost
 ```
 
-Penanaman, sertifikasi, training, external relation, dan external reporting dimodelkan sebagai kewajiban pendukung. Aktivitas ini tidak langsung menghasilkan revenue, tetapi tetap memengaruhi total biaya, legalitas, kelestarian, dan kesinambungan operasi.
+Penanaman, sertifikasi, training, external relation, dan external reporting dimodelkan sebagai kewajiban pendukung. Aktivitas ini tidak langsung menghasilkan revenue, tetapi tetap memengaruhi total biaya, legalitas, kelestarian, dan kesinambungan operasi. Dalam model, `compliance_fee_cost` telah mencakup biaya certification, external reporting, training, dan external relation.
 
 ## Ruang lingkup data
 
-- **Periode studi kasus:** 2024–2027, berdasarkan tanggal shipping (ET+1) ketika invoice dan revenue diakui.
+- **Periode studi kasus:** 2024–2027, berdasarkan tanggal shipping ketika invoice dan revenue diakui.
+- **Batas siklus operasi:** *ET+1*; tanggal shipping dapat berada maksimal satu tahun setelah kegiatan dimulai dari tahap survei.
 - **Unit operasi:** satu blok per tahun.
 - **Sumber operasional:** tally sheet lapangan untuk survei, harvest, skidding, hauling, dan shipping; GPS sebagai pendukung posisi spasial setiap tally sheet.
 - **Proses data:** input Excel, data cleaning dan transformasi dengan Power Query, data modeling serta perhitungan KPI dengan DAX di Power BI.
@@ -77,7 +92,7 @@ Revenue dimodelkan terpisah pada level **ID Tree**, karena satu Job ID dapat men
 | `tree_detail` | Satu catatan per pohon untuk volume, jenis, harga, revenue, dan komponen biaya terkait. |
 | `trimming` | Hasil trimming dan buyer/vendor pada level pohon. |
 | `planting` | Biaya, jumlah bibit, dan tanggal penanaman per Job ID. |
-| `certification`, `external_reporting`, `inhouse_training`, `external_relation` | Monitoring compliance, audit, pelaporan, dan aktivitas pendukung. |
+| `certification`, `external_reporting`, `inhouse_training`, `external_relation` | Monitoring compliance, audit, pelaporan, dan aktivitas pendukung; biaya aktivitas tersebut terkonsolidasi dalam `compliance_fee_cost`. |
 | `date` | Dimensi kalender untuk analisis waktu. |
 | `location` | Dimensi lokasi spasial titik tengah blok/tahun. |
 
@@ -89,12 +104,12 @@ Revenue dimodelkan terpisah pada level **ID Tree**, karena satu Job ID dapat men
 |---|---|
 | Cost per KM | Biaya survei yang diperlukan untuk menghasilkan satu kilometer jalur survei. |
 | Leader score | Realisasi panjang jalur dibandingkan target kerja standar 2 km per hari. |
-| Conversion rate | Volume standing stock yang menjadi volume TPn (Stockpile). conversion_stock = SUM(harvest[volume_tpn]) / SUM(survey_cruising[volume_stock])danseterusnya_dst.    |
-| Volume recovery | Perbandingan volume yang bertahan pada setiap tahap operasi. |
+| Conversion rate | Rasio volume yang berhasil berpindah antar-tahap: standing stock → TPn, TPn → hauling, dan hauling → shipping. Conversion stock → TPn sengaja tidak diharapkan mencapai 100% karena sebagian tegakan tetap dipertahankan untuk kelestarian, serta ada seleksi diameter, jenis langka/indah/dilindungi, dan kelayakan medan. |
+| Volume recovery | Perbandingan volume yang bertahan pada setiap tahap operasi; digunakan bersama conversion rate untuk membedakan seleksi yang direncanakan dari loss yang perlu dikendalikan. |
 | Cost per m³ | Total biaya seluruh tahap dibagi volume produksi (bukan volume siap jual). |
 | Log age | Selisih hari antara tanggal harvest dan shipping. |
 | Trimming pass rate | Volume yang lolos QC buyer setelah trimming dibanding volume sebelum trimming. |
-| Revenue | Nilai penjualan setelah hasil QC interanl hingga trimming buyer. |
+| Revenue | Nilai penjualan setelah QC internal dan trimming final oleh buyer. |
 | Profit margin | Profit dibagi total revenue. |
 | On-time reporting rate | Proporsi laporan eksternal yang diterbitkan pada atau sebelum tenggat. |
 
@@ -132,7 +147,6 @@ SUM ( [volume_tpn_ship] * [price]  * [Trimming Pass Rate % ])
 
 profit = 
 ([Total Revenue] - [cost])
-
 ```
 
 
@@ -143,7 +157,7 @@ Dashboard dibangun dalam beberapa halaman agar setiap keputusan dapat ditelusuri
 | Halaman | Pertanyaan yang dijawab |
 |---|---|
 | Survey overview | Berapa potensi, luas, panjang jalur, biaya, dan distribusi metode survei? |
-| Survey performance | Leader dan metode survei mana yang menunjukkan target attainment serta cost/km yang paling konsisten? |
+| Survey performance | Leader mana yang paling sesuai untuk setiap tahap survei, berdasarkan score tinggi dan cost per km yang efisien? |
 | Harvest & production | Berapa conversion dari stock ke TPn dan siapa kontributor volume terbesar? |
 | Frontman-operator assignment | Kombinasi mandor dan operator mana yang menghasilkan volume tertinggi? |
 | Volume attrition | Di tahap mana volume berkurang dari standing stock sampai shipping? |
@@ -166,33 +180,31 @@ PAK (*Penataan Areal Kerja*) dan Orientasi memiliki conversion rate dari standin
 
 Hubungan antara target kerja dan leader score menunjukkan bahwa penambahan beban tidak selalu meningkatkan pencapaian. Pada tingkat beban tertentu, score dapat menurun karena perhatian, mobilitas, dan koordinasi lapangan tersebar ke terlalu banyak penugasan.
 
-**Aksi:** gunakan scorecard leader yang menggabungkan target attainment, cost/km, luas cakupan per km, standing volume per km, dan conversion rate berikutnya. Alokasikan pekerjaan lebih besar kepada leader dengan performa stabil; gunakan pembinaan intensif dan penyeimbangan beban bagi leader dengan tren menurun.
+**Aksi:** gunakan scorecard leader yang menggabungkan target attainment, cost/km, luas cakupan per km, standing volume per km, dan conversion rate berikutnya. Alokasikan pekerjaan lebih besar kepada leader dengan performa stabil; gunakan pembinaan intensif dan penyeimbangan beban bagi leader dengan tren menurun. dan dilakukan spesialisasi ketua regu dengan jenis pekerjaan nya 
 
-### 3. Recovery volume perlu dikendalikan lintas tahap
+### 3. Loss setelah TPn adalah peluang utama untuk menjaga recovery dan revenue
 
-Analisis menemukan conversion standing stock ke TPn sebesar **82,39%**, setelah memperhitungkan seleksi eksploitasi dan kelestarian. Recovery pada tahap skidding-hauling tercatat **96,87%**, sedangkan volume yang lolos trimming buyer tercatat **95,88%**. Setiap rasio harus dibaca dengan denominator tahapnya masing-masing, bukan sebagai satu angka kehilangan yang sama.
+Conversion standing stock ke TPn sebesar **82,39%** mencerminkan seleksi yang memang direncanakan: sebagian tegakan dipertahankan untuk kelestarian, sementara pohon yang tidak memenuhi kriteria diameter, spesies, perlindungan, atau kelayakan medan tidak dilanjutkan ke harvest. Karena itu, funnel improvement tidak berfokus untuk memaksimalkan rasio ini sampai 100%.
 
-**Aksi:** gunakan funnel volume dengan reason code yang konsisten—kelestarian, akses/medan, kerusakan, keterlambatan pengupasan, umur kayu, QC buyer, atau kendala logistik—agar tim dapat memprioritaskan sumber kehilangan terbesar berdasarkan volume dan nilai rupiah.
+Peluang perbaikan terbesar berada setelah TPn, ketika volume sudah memasuki rantai produksi. Recovery TPn ke hauling sebesar **96,87%** menunjukkan loss **3,13%** yang dapat berkaitan dengan kerusakan saat penarikan traktor di medan berat, log pecah, keterlambatan pengupasan yang meningkatkan risiko kerusakan, reject spesifikasi, loading dan unloading, serta pemanfaatan log untuk kebutuhan sarana-prasarana. Recovery hauling ke shipping sebesar **95,88%** menunjukkan pengaruh trimming, umur kayu, kontak dengan air, dan QC final pabrik atau buyer.
 
-### 4. Insentif berbasis jumlah pohon dapat menimbulkan risiko kualitas hilir
+Evaluasi proses juga menunjukkan potensi ketidaksejajaran antara insentif produktivitas lapangan yang berfokus pada jumlah pohon dan kualitas log yang baru terlihat pada tahap hilir. Kondisi ini berisiko memperbesar trimming, reject, serta penurunan revenue yang terealisasi.
 
-Evaluasi proses menunjukkan potensi ketidaksejajaran antara insentif produktivitas lapangan yang menekankan jumlah pohon dan kualitas log yang baru terlihat pada QC buyer. Kondisi ini dapat meningkatkan risiko trimming, reject, dan penurunan revenue realisasi.
+**Aksi:** terapkan pengawasan dan QC berlapis di setiap titik kritis: pemeriksaan awal di TPn, inspeksi selama skidding dan hauling, sorting berkelanjutan di TPK, serta verifikasi akhir sebelum shipping. Standarkan reason code untuk setiap kehilangan volume, lalu tampilkan loss berdasarkan volume dan nilai rupiah. Evaluasi tim harvest juga perlu memasukkan recovery volume, reject rate, trimming pass rate, dan kepatuhan QC—bukan hanya jumlah pohon yang diproses.
 
-**Aksi:** tambahkan recovery volume, reject rate, trimming pass rate, dan kepatuhan initial QC di TPn ke evaluasi performa tim harvest. Terapkan QC berlapis: pemeriksaan awal di TPn, sorting berkelanjutan di TPK, dan verifikasi akhir sebelum shipping.
-
-### 5. Heatmap volume mendukung penyusunan formasi kerja
+### 4. Heatmap volume mendukung penyusunan formasi kerja
 
 Performa frontman dinilai lebih dahulu berdasarkan total volume, kemudian dipetakan bersama kontribusi operator. Analisis matriks ini membantu mengidentifikasi formasi mandor-operator dengan output volume tinggi tanpa menyederhanakan evaluasi menjadi penilaian individu semata.
 
 **Aksi:** gunakan heatmap sebagai dasar rotasi formasi, program mentoring, dan pembinaan intensif. Sebelum menstandarkan suatu kombinasi, validasi kembali hasilnya terhadap jenis pekerjaan, medan, dan periode yang sama.
 
-### 6. Lonjakan biaya hauling dapat menipiskan profit meskipun revenue naik
+### 5. Lonjakan biaya hauling dapat menipiskan profit meskipun revenue naik
 
-Pada awal 2026, kenaikan harga BBM terlihat bersamaan dengan lonjakan biaya hauling. Karena profit dihitung dari revenue dikurangi seluruh biaya, pertumbuhan revenue tidak selalu menghasilkan margin yang lebih besar ketika biaya meningkat lebih cepat.
+Pada awal 2026, kenaikan harga BBM terlihat bersamaan dengan lonjakan biaya produksi. Karena profit dihitung dari revenue dikurangi seluruh biaya, pertumbuhan revenue tidak selalu menghasilkan margin yang lebih besar ketika biaya meningkat lebih cepat.
 
 **Aksi:** monitor tren hauling cost bersama revenue dan profit margin. Saat biaya meningkat, evaluasi jarak angkut, kebutuhan armada, urutan pengiriman, dan prioritas volume bernilai lebih tinggi. Karena data konsumsi BBM bersifat terbatas, evaluasi menggunakan total cost hauling, bukan liter per m³-km.
 
-### 7. Compliance dan reporting adalah pengendali kelangsungan operasi
+### 6. Compliance dan reporting adalah pengendali kelangsungan operasi
 
 Keterlambatan external reporting dapat menciptakan risiko bagi kelancaran operasional dan hubungan dengan stakeholder. Oleh karena itu, monitoring kepatuhan bukan sekadar aktivitas administrasi, melainkan bagian dari pengendalian risiko operasi.
 
@@ -219,6 +231,23 @@ Prinsip ini sejalan dengan praktik *Reduced Impact Logging*: perencanaan sebelum
 | DAX | Perhitungan KPI, time intelligence, conversion, cost, revenue, recovery, dan profitabilitas. |
 | Data modeling | Model Job ID ke ID Tree, dimensi kalender, relasi aktivitas operasi, serta pemisahan grain Job dan pohon. |
 | Business analysis | Penerjemahan proses kehutanan menjadi KPI, pertanyaan bisnis, insight, dan rekomendasi tindakan. |
+
+## Struktur repositori yang disarankan
+
+```text
+.
+├── README.md
+├── NAS_DATA.pbix                 # Dashboard Power BI (data sintetis)
+├── assets/
+│   ├── dashboard-overview.png
+│   ├── survey-performance.png
+│   ├── volume-attrition.png
+│   ├── cost-profit.png
+│   ├── compliance.png
+│   └── data-model.png
+└── data/
+    └── anonymized/               # CSV/Excel sintetis yang aman dipublikasikan
+```
 
 
 ## Batasan studi kasus
