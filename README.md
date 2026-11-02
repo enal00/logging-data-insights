@@ -232,24 +232,6 @@ Prinsip ini sejalan dengan praktik *Reduced Impact Logging*: perencanaan sebelum
 | Data modeling | Model Job ID ke ID Tree, dimensi kalender, relasi aktivitas operasi, serta pemisahan grain Job dan pohon. |
 | Business analysis | Penerjemahan proses kehutanan menjadi KPI, pertanyaan bisnis, insight, dan rekomendasi tindakan. |
 
-## Struktur repositori yang disarankan
-
-```text
-.
-├── README.md
-├── NAS_DATA.pbix                 # Dashboard Power BI (data sintetis)
-├── assets/
-│   ├── dashboard-overview.png
-│   ├── survey-performance.png
-│   ├── volume-attrition.png
-│   ├── cost-profit.png
-│   ├── compliance.png
-│   └── data-model.png
-└── data/
-    └── anonymized/               # CSV/Excel sintetis yang aman dipublikasikan
-```
-
-
 ## Batasan studi kasus
 
 - Data publik adalah data sintetis dan dianonimkan; angka tidak boleh ditafsirkan sebagai kinerja perusahaan asli.
